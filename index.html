@@ -1,27 +1,56 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="az">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concert Hall Ticketing</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Seating Map</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>Concert Hall</h1>
-    <p>Select your preferred seating zone</p>
-  </header>
 
-  <main>
-    <section class="venue">
-      <h2>Venue Layout</h2>
-      <div class="stage">STAGE</div>
-      <div class="zone vip">VIP — 150 AZN</div>
-      <div class="zone premium">Premium — 80 AZN</div>
-      <div class="zone standard">Standard — 50 AZN</div>
-    </section>
-  </main>
+    <header class="app-header">
+        <h1>Concert Hall</h1>
+        <p>Select a seat to inspect its details and price.</p>
+    </header>
+
+    <main class="app-container">
+        <section class="map-section">
+            <div class="stage-container">
+                <div class="stage">STAGE</div>
+            </div>
+            
+            <div id="venue-map" class="venue-map">
+            </div>
+
+            <div class="legend">
+                <div class="legend-item"><span class="seat-sample available"></span> Mövcud (Available)</div>
+                <div class="legend-item"><span class="seat-sample inspected"></span> Seçilmiş/Yoxlanılır (Inspected)</div>
+                <div class="legend-item"><span class="seat-sample unavailable"></span> Dolu (Unavailable)</div>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="panel inspection-panel">
+                <h2>Seat Inspection</h2>
+                <div id="seat-details" class="seat-details">
+                    <p class="placeholder-text">No seat selected. Click a seat on the map to inspect.</p>
+                </div>
+                <button id="add-to-cart-btn" class="btn primary-btn" disabled>ADD TO CART</button>
+            </div>
+
+            <div class="panel cart-panel">
+                <h2>Cart (Week 3 feature preview)</h2>
+                <div id="cart-items" class="cart-items">
+                    <p class="placeholder-text">Cart is empty.</p>
+                </div>
+                <div class="cart-total">
+                    <span>Total:</span>
+                    <span id="total-price">0.00 AZN</span>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 </html>
