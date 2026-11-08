@@ -1,27 +1,99 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Concert Hall Ticketing</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concert Hall - Seat Selection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Concert Hall</h1>
-    <p>Select your preferred seating zone</p>
-  </header>
-
-  <main>
-    <section class="venue">
-      <h2>Venue Layout</h2>
-      <div class="stage">STAGE</div>
-      <div class="zone vip">VIP — 150 AZN</div>
-      <div class="zone premium">Premium — 80 AZN</div>
-      <div class="zone standard">Standard — 50 AZN</div>
-    </section>
-  </main>
+ 
+    <main class="layout">
+ 
+        <section class="map-card" aria-label="Venue map">
+ 
+            <div class="state-legend" aria-hidden="true">
+                <span class="state-item"><span class="sw sw-inspected"></span>Inspecting</span>
+                <span class="state-item"><span class="sw sw-incart"></span>In cart</span>
+                <span class="state-item"><span class="sw sw-unavailable"></span>Unavailable</span>
+            </div>
+ 
+            <div class="svg-viewport" id="viewport">
+                <div class="world" id="world">
+                     <svg class="decor" viewBox="0 0 800 560" width="800" height="560" aria-hidden="true">
+                        <defs>
+                            <linearGradient id="beam" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+                                <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                         <line x1="215" y1="535" x2="80" y2="330" stroke="#c9c9cf" stroke-width="1.2"/>
+                        <line x1="585" y1="535" x2="720" y2="330" stroke="#c9c9cf" stroke-width="1.2"/>
+                         <path d="M230,530 A170,95 0 0 1 570,530 Z" fill="#3a3a3f"/>
+                        <polygon points="345,440 305,525 385,525" fill="url(#beam)"/>
+                        <polygon points="455,440 415,525 495,525" fill="url(#beam)"/>
+                        <text x="400" y="505" text-anchor="middle" font-size="15" letter-spacing="7"
+                              fill="#f1f1f3" font-family="Playfair Display, Georgia, serif">STAGE</text>
+ 
+                        <rect x="215" y="530" width="370" height="12" fill="#26262b"/>
+                    </svg>
+ 
+                    <div class="seats-layer" id="seats-layer"></div>
+                </div>
+            </div>
+            <div class="map-controls">
+                <div class="ctrl-box pad">
+                    <button id="move-up" class="up" type="button" title="Move up" aria-label="Move Up">&uarr;</button>
+                    <button id="move-left" class="left" type="button" title="Move left" aria-label="Move Left">&larr;</button>
+                    <button id="move-right" class="right" type="button" title="Move right" aria-label="Move Right">&rarr;</button>
+                    <button id="move-down" class="down" type="button" title="Move down" aria-label="Move Down">&darr;</button>
+                </div>
+                <div class="ctrl-box zoom">
+                    <button id="zoom-in" type="button" title="Zoom in" aria-label="Zoom In">+</button>
+                    <button id="zoom-reset" type="button" title="Reset / center view" aria-label="Reset / Center View">&#8635;</button>
+                    <button id="zoom-out" type="button" title="Zoom out" aria-label="Zoom Out">&minus;</button>
+                </div>
+            </div>
+ 
+            <div class="zone-legend" id="zone-legend"></div>
+ 
+            <div class="tooltip" id="tooltip"></div>
+        </section>
+ 
+        <aside class="selection-panel">
+            <h2 class="panel-title">Your Selection</h2>
+ 
+            <div class="inspector" aria-live="polite">
+                <dl class="info-rows">
+                    <div class="info-row"><dt>Seat</dt><dd id="d-seat">&mdash;</dd></div>
+                    <div class="info-row"><dt>Section</dt><dd id="d-section">&mdash;</dd></div>
+                    <div class="info-row"><dt>Price</dt><dd id="d-price">&mdash;</dd></div>
+                    <div class="info-row"><dt>Status</dt><dd id="d-status">&mdash;</dd></div>
+                </dl>
+                <button id="add-to-cart-btn" class="btn btn-outline" type="button" disabled>Add to Cart</button>
+            </div>
+ 
+            <div class="cart-head">
+                <h3>Your Tickets</h3>
+                <span class="count" id="cart-count">0</span>
+            </div>
+ 
+            <ul id="cart-list" class="cart-list"></ul>
+ 
+            <div class="total-row" aria-live="polite">
+                <span>Total</span>
+                <strong id="total-amount">0 AZN</strong>
+            </div>
+ 
+            <button id="checkout-btn" class="btn btn-primary" type="button" disabled>Continue to Checkout &rarr;</button>
+            <p id="status-msg" class="status-msg" role="status"></p>
+        </aside>
+ 
+    </main>
+ 
+    <script src="script.js"></script>
 </body>
 </html>
