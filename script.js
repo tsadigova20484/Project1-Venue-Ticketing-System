@@ -38,22 +38,36 @@ document.addEventListener('DOMContentLoaded', () => {
  
     
     const ZONES = {
-        standard: { name: 'Standard', price: 55,  color: '#26262b' },
-        premium:  { name: 'Premium',  price: 85,  color: '#9a9aa0' },
-        vip:      { name: 'VIP',      price: 120, color: '#dcdce0' }
-    };
+    standard: {
+        name: 'Standard',
+        price: 55,
+        color: '#AAB4C4'
+    },
+    premium: {
+        name: 'Premium',
+        price: 85,
+        color: '#6689D9'
+    },
+    vip: {
+        name: 'VIP',
+        price: 120,
+        color: '#7665A8'
+    }
+};
  
-    const ROWS = [
-        { label: 'A', zone: 'standard' },
-        { label: 'B', zone: 'standard' },
-        { label: 'C', zone: 'standard' },
-        { label: 'D', zone: 'premium' },
-        { label: 'E', zone: 'premium' },
-        { label: 'F', zone: 'premium' },
-        { label: 'G', zone: 'vip' },
-        { label: 'H', zone: 'vip' },
-        { label: 'I', zone: 'vip' }
-    ];
+    
+const ROWS = [
+    { label: 'A', zone: 'vip' },
+    { label: 'B', zone: 'vip' },
+    { label: 'C', zone: 'vip' },
+    { label: 'D', zone: 'premium' },
+    { label: 'E', zone: 'premium' },
+    { label: 'F', zone: 'premium' },
+    { label: 'G', zone: 'standard' },
+    { label: 'H', zone: 'standard' },
+    { label: 'I', zone: 'standard' }
+];
+
  
     const FIRST_RADIUS = 125;     
     const ROW_GAP = 26;           
@@ -238,28 +252,29 @@ document.addEventListener('DOMContentLoaded', () => {
  
     // ---------- CART ----------
     function addToCart(id) {
-        const seat = seatsById[id];
-        if (!seat) return;
-        if (seat.unavailable) {
-            showStatus('This seat is unavailable.', true);
-            return;
-        }
-        if (cart.includes(id)) {
-            showStatus('This seat is already in your cart.', true);
-            return;
-        }
-        cart.push(id);
-        saveCart();
-        showStatus('');
-        render();
+    const seat = seatsById[id];
+    if (!seat) return;
+
+    if (seat.unavailable) {
+        showStatus('This seat is unavailable.', true);
+        return;
     }
+
+    if (cart.includes(id)) {
+        showStatus('This seat is already in your cart.', true);
+        return;
+    }
+
+    cart.push(id);
+    showStatus('');
+    render();
+}
  
     function removeFromCart(id) {
-        cart = cart.filter(item => item !== id);
-        saveCart();
-        showStatus('');
-        render();   
-    }
+    cart = cart.filter(item => item !== id);
+    showStatus('');
+    render();
+}
  
     function renderCart() {
         cartList.innerHTML = '';
@@ -309,36 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
  
     // ---------- LOCAL STORAGE ----------
-    function saveCart() {
-        try {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
-        } catch (err) {
-            console.warn('Cart could not be saved:', err);
-        }
-    }
- 
-    function loadCart() {
-        try {
-            const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
-            if (!Array.isArray(data)) return [];
-            return data.filter((id, i) =>
-                typeof id === 'string' &&
-                seatsById[id] &&
-                !seatsById[id].unavailable &&
-                data.indexOf(id) === i
-            );
-        } catch (err) {
-            return [];   
-        }
-    }
- 
-    window.addEventListener('storage', (e) => {
-        if (e.key === STORAGE_KEY) {
-            cart = loadCart();
-            render();
-        }
-    });
- 
+
 
     const MIN_SCALE = 0.7;
     const MAX_SCALE = 3;
@@ -492,11 +478,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
  
     buildSeatData();
-    renderSeats();
-    renderZoneLegend();
-    cart = loadCart();   
-    saveCart();          
-    applyView();
-    render();
+renderSeats();
+renderZoneLegend();
+
+cart = [];
+inspectedId = null;
+view = { x: 0, y: 0, scale: 1 };
+
+applyView();
+render();
 });
  
